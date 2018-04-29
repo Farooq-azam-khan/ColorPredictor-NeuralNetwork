@@ -1,10 +1,14 @@
-function setup() {
+let b; // bird object
+function setup()
+{
   createCanvas(400, 600);
-  background(51);
-  // rect(100, 100, 200, 400);
+  b = new Bird();
 }
 
 function draw()
 {
+  background(51);
+  b.update();
+  b.show();
 
 }
