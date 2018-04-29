@@ -7,7 +7,7 @@ class Bird
 
     this.gravity = 0.6;
     this.velocity = 0;
-    // this.lift = -10;
+    this.lift = -10;
   }
 
   show()
@@ -19,7 +19,7 @@ class Bird
 
   up()
   {
-    this.velocity = this.lift;
+    this.velocity += this.lift;
   }
 
   update()
@@ -27,19 +27,19 @@ class Bird
     // update velocity
     this.velocity += this.gravity;
     // update position
+    this.velocity *= 0.9;
     this.y += this.velocity;
 
     // check boundary conditions
-    if (this.y >= height - this.height / 2)
+    if (this.y >= height)
     {
-      this.y = height - this.height / 2;
+      this.y = height;
       this.velocity = 0;
     }
-
-    if (this.y <= this.height / 2)
+    if (this.y < 0)
     {
-      this.y = this.height / 2;
-      this.velocity = 0;
+      this.y = 0;
+      // this.velocity = 0;
     }
   }
 }
