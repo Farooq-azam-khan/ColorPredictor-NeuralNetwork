@@ -2,22 +2,26 @@ class Pipe
 {
   constructor()
   {
+    // spacing between pipe
+    let spacing = random(100, height/2);
+    // where that random spacing appears is also random
+    let centery = random(50, height-50);
     // top rectangle (heght)
-    this.top = random(height/2);
+    this.top = centery - spacing/2;
     // botton rectangle (height)
-    this.bottom = random(height/2);
+    this.bottom = height - centery - spacing/2;
     this.x = width;
-    this.w = 20; // width of all rectangles
+    this.w = 40; // width of all rectangles
     this.speed = 3; // speed of how fast the pipe is moving
 
     this.highlight = false;
   }
   show()
   {
-    fill(255);
+    fill(249, 105, 14, 250);
     if (this.highlight)
     {
-      fill(255, 0, 0, 100);
+      fill(207, 0, 15, 150);
     }
     // top rectangle
     rect(this.x,  0, this.w, this.top);
@@ -46,7 +50,7 @@ class Pipe
         return true;
       }
     }
-    this.highlight = false; 
+    this.highlight = false;
     return false;
   }
 }

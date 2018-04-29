@@ -1,15 +1,24 @@
 let bird; // bird object
 let pipes = []; // array of pipes
+let background_img;
+let bird_sprite;
+
+function preload()
+{
+  bird_sprite = loadImage("bird.png");
+  background_img = loadImage("background3.png");
+}
 function setup()
 {
-  createCanvas(400, 600);
+  // windowWidth, windowHeight
+  createCanvas(800, 600);
   bird = new Bird();
   pipes.push(new Pipe());
 }
 
 function draw()
 {
-  background(51);
+  background(background_img); // 51);
 
 
 

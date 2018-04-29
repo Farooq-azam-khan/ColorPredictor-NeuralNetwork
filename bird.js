@@ -8,13 +8,20 @@ class Bird
     this.gravity = 0.6;
     this.velocity = 0;
     this.lift = -10;
+
+    this.icon = bird_sprite;
+    this.width = 300;
+    this.height = 250;
   }
 
   show()
   {
     // x, y, radius, radius;
-    fill(255);
-    ellipse(this.x, this.y, 32, 32);
+    strokeWeight(2);
+    stroke(52, 73, 94);
+    fill(103, 128, 159);
+    //image(this.icon, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+    ellipse(this.x, this.y, 40, 40);
   }
 
   up()
