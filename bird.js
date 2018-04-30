@@ -21,7 +21,7 @@ class Bird
     {
       // neural network
       //            inputs, hidden nodes, outputs
-      this.brain = new NeuralNetwork(4, 4, 2);
+      this.brain = new NeuralNetwork(5, 7, 2);
     }
 
     // genetic algorith
@@ -33,9 +33,8 @@ class Bird
   {
     this.brain.mutate(0.1);
   }
-  offScreen()
-  {
-    return false;
+  offScreen() {
+    return (this.y > height || this.y < 0);
   }
 
   show()
@@ -76,6 +75,7 @@ class Bird
     inputs[1] = closest_pipe.top / height; // pipe to avoid
     inputs[2] = closest_pipe.bottom / height; // pipe to avoid
     inputs[3] = closest_pipe.x / width; // x position of the pipe
+    inputs[4] = this.velocity / 10; // the velocity of the bird
 
     let outputs = this.brain.predict(inputs);
     if (outputs[0] > outputs[1])

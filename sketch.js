@@ -1,10 +1,13 @@
 // let bird; // bird object
-const TOTAL = 100;
+const TOTAL = 250;
 let birds = [];
 let savedBirds = [];
 let pipes = []; // array of pipes
 let background_img;
 let counter = 0;
+
+
+let slider;
 // let bird_sprite;
 
 function preload()
@@ -16,62 +19,67 @@ function setup()
 {
   // windowWidth, windowHeight
   createCanvas(800, 600);
+  slider = createSlider(1, 10, 1);
   // bird = new Bird();
   for (let i=0; i<TOTAL; i++)
   {
     birds[i] = new Bird();
   }
-  // pipes.push(new Pipe());
 }
 
 function draw()
 {
-  // every 100 frames add new pipe
-  if (counter % 75 == 0)
+  for (let increment=0; increment<slider.value(); increment++)
   {
-    pipes.push(new Pipe());
-    // console.log("pipes length: " + pipes.length);
-  }
-  background(background_img); // 51);
-
-
-
-  for (let i = pipes.length-1; i>=0; i--)
-  {
-    pipes[i].show();
-    pipes[i].update();
-
-    for (let j=birds.length-1; j>=0; j--)
+    // every 100 frames add new pipe
+    if (counter % 75 == 0)
     {
-      if(pipes[i].hits(birds[j]))
+      pipes.push(new Pipe());
+    }
+    for (let i = pipes.length-1; i>=0; i--)
+    {
+      pipes[i].update();
+
+      for (let j=birds.length-1; j>=0; j--)
       {
-        // console.log("pipe hit bird");
-        savedBirds.push(birds.splice(j, 1)[0]);
+        if(pipes[i].hits(birds[j]))
+        {
+          savedBirds.push(birds.splice(j, 1)[0]);
+        }
+      }
+      // remove pipe
+      if (pipes[i].offscreen())
+      {
+        pipes.splice(i, 1);
       }
     }
-    // remove pipe
-    if (pipes[i].offscreen())
+    for(let bird of birds)
     {
-      pipes.splice(i, 1);
+      bird.think(pipes);
+      bird.update();
     }
-  }
-  for(let bird of birds)
-  {
-    bird.think(pipes);
-    bird.update();
-    bird.show();
+
+    if (birds.length === 0)
+    {
+      nextGeneration();
+      pipes = [];
+      pipes.push(new Pipe());
+      counter = 0;
+    }
+    counter++;
   }
 
-  if (birds.length === 0)
+
+  // show for user
+  background(background_img);
+  for(let bird of birds)
   {
-    nextGeneration();
-    pipes = [];
-    pipes.push(new Pipe());
-    counter = 0;
-    // console.log("all birds are dead");
-    // console.log("size: " + savedBirds.length);
+    bird.show();
   }
-  counter++;
+  for (let pipe of pipes)
+  {
+    pipe.show();
+  }
 
 
 
