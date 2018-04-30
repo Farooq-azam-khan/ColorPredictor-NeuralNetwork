@@ -11,7 +11,7 @@ class Pipe
     // botton rectangle (height)
     this.bottom = height - centery - spacing/2;
     this.x = width;
-    this.w = 40; // width of all rectangles
+    this.w = 30; // width of all rectangles
     this.speed = 3; // speed of how fast the pipe is moving
 
     this.highlight = false;
@@ -44,7 +44,7 @@ class Pipe
   {
     if(bird.y < this.top || bird.y > height - this.bottom)
     {
-      if (bird.x > this.x && bird.x < this.x + this.w)
+      if (bird.x+32 > this.x && bird.x < this.x + this.w)
       {
         this.highlight = true;
         return true;

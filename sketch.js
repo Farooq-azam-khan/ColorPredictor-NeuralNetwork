@@ -1,62 +1,88 @@
-let bird; // bird object
+// let bird; // bird object
+const TOTAL = 100;
+let birds = [];
+let savedBirds = [];
 let pipes = []; // array of pipes
 let background_img;
-let bird_sprite;
+let counter = 0;
+// let bird_sprite;
 
 function preload()
 {
-  bird_sprite = loadImage("bird.png");
+  // bird_sprite = loadImage("bird.png");
   background_img = loadImage("background3.png");
 }
 function setup()
 {
   // windowWidth, windowHeight
   createCanvas(800, 600);
-  bird = new Bird();
-  pipes.push(new Pipe());
+  // bird = new Bird();
+  for (let i=0; i<TOTAL; i++)
+  {
+    birds[i] = new Bird();
+  }
+  // pipes.push(new Pipe());
 }
 
 function draw()
 {
+  // every 100 frames add new pipe
+  if (counter % 75 == 0)
+  {
+    pipes.push(new Pipe());
+    // console.log("pipes length: " + pipes.length);
+  }
   background(background_img); // 51);
 
 
 
-  for (var i = pipes.length-1; i>=0; i--)
+  for (let i = pipes.length-1; i>=0; i--)
   {
     pipes[i].show();
     pipes[i].update();
 
-    if(pipes[i].hits(bird))
+    for (let j=birds.length-1; j>=0; j--)
     {
-      console.log("pipe hit bird");
+      if(pipes[i].hits(birds[j]))
+      {
+        // console.log("pipe hit bird");
+        savedBirds.push(birds.splice(j, 1)[0]);
+      }
     }
-
     // remove pipe
     if (pipes[i].offscreen())
     {
       pipes.splice(i, 1);
     }
   }
-
-  bird.update();
-  bird.show();
-
-  // every 100 frames add new pipe
-  if (frameCount % 100 == 0)
+  for(let bird of birds)
   {
+    bird.think(pipes);
+    bird.update();
+    bird.show();
+  }
+
+  if (birds.length === 0)
+  {
+    nextGeneration();
+    pipes = [];
     pipes.push(new Pipe());
-    console.log("pipes length: " + pipes.length);
+    counter = 0;
+    // console.log("all birds are dead");
+    // console.log("size: " + savedBirds.length);
   }
+  counter++;
+
+
 
 }
 
 
-function keyPressed()
-{
-  if (key = ' ')
-  {
-    bird.up();
-    console.log("space");
-  }
-}
+// function keyPressed()
+// {
+//   if (key = ' ')
+//   {
+//     bird.up();
+//     // console.log("space");
+//   }
+// }
