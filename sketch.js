@@ -1,96 +1,67 @@
-// let bird; // bird object
-const TOTAL = 250;
-let birds = [];
-let savedBirds = [];
-let pipes = []; // array of pipes
-let background_img;
-let counter = 0;
+let r, g, b;
+// inuts = red, green, blue
+// outputs = black, white
 
+let brain;
+let which = "black"; // output decision
 
-let slider;
-// let bird_sprite;
-
-function preload()
+function pickColor()
 {
-  // bird_sprite = loadImage("bird.png");
-  background_img = loadImage("background3.png");
+  // pick random values for inputs (r,g,b);
+  r = random(255);
+  g = random(255);
+  b = random(255);
+}
+
+function colorPredictor(r, g, b)
+{
+
+  // non nn color precitor
+  // if (r+g+b > 300)
+  // {
+  //   return "black";
+  // }
+  // else
+  // {
+  //   return "white";
+  // }
 }
 function setup()
 {
-  // windowWidth, windowHeight
-  createCanvas(800, 600);
-  slider = createSlider(1, 10, 1);
-  // bird = new Bird();
-  for (let i=0; i<TOTAL; i++)
-  {
-    birds[i] = new Bird();
-  }
+  createCanvas(600, 300);
+  pickColor();
+
+  // nn
+  brain = new NeuralNetwork(3, 3, 2);
 }
 
+function mousePressed()
+{
+  // everytime mouse is pressed new random colors are picked
+  pickColor();
+}
 function draw()
 {
-  for (let increment=0; increment<slider.value(); increment++)
+  background(r,g,b);
+  textSize(64);
+  noStroke();
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text("black", 200, 100);
+  fill(255);
+  text("white", 400, 100);
+
+  // nn function
+  which = colorPredictor(r,g,b);
+  if (which === "black")
   {
-    // every 100 frames add new pipe
-    if (counter % 75 == 0)
-    {
-      pipes.push(new Pipe());
-    }
-    for (let i = pipes.length-1; i>=0; i--)
-    {
-      pipes[i].update();
-
-      for (let j=birds.length-1; j>=0; j--)
-      {
-        if(pipes[i].hits(birds[j]))
-        {
-          savedBirds.push(birds.splice(j, 1)[0]);
-        }
-      }
-      // remove pipe
-      if (pipes[i].offscreen())
-      {
-        pipes.splice(i, 1);
-      }
-    }
-    for(let bird of birds)
-    {
-      bird.think(pipes);
-      bird.update();
-    }
-
-    if (birds.length === 0)
-    {
-      nextGeneration();
-      pipes = [];
-      pipes.push(new Pipe());
-      counter = 0;
-    }
-    counter++;
+    fill(0);
+    ellipse(200, 200, 60, 60);
   }
-
-
-  // show for user
-  background(background_img);
-  for(let bird of birds)
+  else if (which == "white")
   {
-    bird.show();
+    fill(255);
+    ellipse(400, 200, 60, 60);
   }
-  for (let pipe of pipes)
-  {
-    pipe.show();
-  }
-
-
 
 }
-
-
-// function keyPressed()
-// {
-//   if (key = ' ')
-//   {
-//     bird.up();
-//     // console.log("space");
-//   }
-// }
